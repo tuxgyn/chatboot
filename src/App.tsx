@@ -1,12 +1,6 @@
 import { ChatLayout } from "./components/ChatLayout";
+import { Composer } from "./components/Composer";
 
 export default function App() {
-  return (
-    <ChatLayout
-      history={null}
-      composer={
-        <div className="min-h-14 rounded-2xl bg-white shadow-md" />
-      }
-    />
-  );
+  return <ChatLayout history={null} composer={<Composer />} />;
 }
