@@ -4,7 +4,7 @@ import { Composer } from "./components/Composer";
 import type { ChatMessage, Sender } from "./types/chat";
 
 export default function App() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [sender, setSender] = useState<Sender>("user");
 
@@ -12,9 +12,19 @@ export default function App() {
     setSender((current) => (current === "user" ? "robot" : "user"));
   }
 
-  function onSend(_draft: string, _sender: Sender) {
-    // T5: no-op — o append entra na T6
-    void [messages, setMessages];
+  function onSend(text: string, currentSender: Sender) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    const message: ChatMessage = {
+      id: crypto.randomUUID(),
+      text: trimmed,
+      sender: currentSender,
+      createdAt: Date.now(),
+    };
+
+    setMessages((current) => [...current, message]);
+    setDraft("");
   }
 
   return (
