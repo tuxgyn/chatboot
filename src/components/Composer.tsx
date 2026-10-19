@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import type { KeyboardEvent } from "react";
 import type { Sender } from "../types/chat";
 import { SendButton } from "./SendButton";
@@ -7,9 +7,21 @@ import { SenderToggle } from "./SenderToggle";
 const LINE_HEIGHT_PX = 24;
 const MAX_LINES = 8;
 
-export function Composer() {
-  const [draft, setDraft] = useState("");
-  const [sender, setSender] = useState<Sender>("user");
+type ComposerProps = {
+  draft: string;
+  sender: Sender;
+  onDraftChange: (draft: string) => void;
+  onToggleSender: () => void;
+  onSend: (draft: string, sender: Sender) => void;
+};
+
+export function Composer({
+  draft,
+  sender,
+  onDraftChange,
+  onToggleSender,
+  onSend,
+}: ComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const canSend = draft.trim().length > 0;
 
@@ -24,7 +36,7 @@ export function Composer() {
 
   function send() {
     if (!canSend) return;
-    // T3: stub — o envio real entra na T6
+    onSend(draft, sender);
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
@@ -41,14 +53,11 @@ export function Composer() {
         sender === "robot" ? "border-violet-500" : "border-transparent"
       }`}
     >
-      <SenderToggle
-        sender={sender}
-        onToggle={() => setSender(sender === "user" ? "robot" : "user")}
-      />
+      <SenderToggle sender={sender} onToggle={onToggleSender} />
       <textarea
         ref={textareaRef}
         value={draft}
-        onChange={(event) => setDraft(event.target.value)}
+        onChange={(event) => onDraftChange(event.target.value)}
         onKeyDown={onKeyDown}
         rows={1}
         placeholder="Escreva uma mensagem"
