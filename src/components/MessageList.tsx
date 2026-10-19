@@ -28,9 +28,13 @@ export function MessageList({ messages }: MessageListProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex w-full flex-col gap-4">
       {messages.map((message, index) => (
-        <div key={message.id} ref={index === messages.length - 1 ? lastRef : undefined}>
+        <div
+          key={message.id}
+          ref={index === messages.length - 1 ? lastRef : undefined}
+          className="w-full"
+        >
           <MessageBubble message={message} />
         </div>
       ))}
