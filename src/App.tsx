@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { ChatLayout } from "./components/ChatLayout";
 import { Composer } from "./components/Composer";
+import { MessageList } from "./components/MessageList";
 import type { ChatMessage, Sender } from "./types/chat";
 
 export default function App() {
-  const [, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [sender, setSender] = useState<Sender>("user");
 
@@ -29,7 +30,7 @@ export default function App() {
 
   return (
     <ChatLayout
-      history={null}
+      history={<MessageList messages={messages} />}
       composer={
         <Composer
           draft={draft}
