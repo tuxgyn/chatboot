@@ -20,13 +20,15 @@ export function MessageList({ messages }: MessageListProps) {
   if (messages.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <p className="text-sm text-stone-500">Nenhuma mensagem ainda</p>
+        <p role="status" className="text-sm text-stone-500">
+          Nenhuma mensagem ainda
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       {messages.map((message, index) => (
         <div key={message.id} ref={index === messages.length - 1 ? lastRef : undefined}>
           <MessageBubble message={message} />

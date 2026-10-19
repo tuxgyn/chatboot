@@ -54,14 +54,17 @@ export function Composer({
       }`}
     >
       <SenderToggle sender={sender} onToggle={onToggleSender} />
+      <label htmlFor="chat-message" className="sr-only">
+        Mensagem
+      </label>
       <textarea
+        id="chat-message"
         ref={textareaRef}
         value={draft}
         onChange={(event) => onDraftChange(event.target.value)}
         onKeyDown={onKeyDown}
         rows={1}
         placeholder="Escreva uma mensagem"
-        aria-label="Mensagem"
         className="max-h-[192px] min-h-6 flex-1 resize-none bg-transparent py-2 leading-6 text-stone-800 outline-none placeholder:text-stone-400"
       />
       <SendButton disabled={!canSend} onClick={send} />
