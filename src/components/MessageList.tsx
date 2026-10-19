@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import type { ChatMessage } from "../types/chat";
 import { MessageBubble } from "./MessageBubble";
 
@@ -6,6 +7,16 @@ type MessageListProps = {
 };
 
 export function MessageList({ messages }: MessageListProps) {
+  const lastRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const last = lastRef.current;
+    if (!last) return;
+
+    const scroller = last.closest("[data-chat-scroll]");
+    if (scroller) scroller.scrollTop = scroller.scrollHeight;
+  }, [messages]);
+
   if (messages.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center">
@@ -16,8 +27,10 @@ export function MessageList({ messages }: MessageListProps) {
 
   return (
     <div className="flex flex-col gap-3">
-      {messages.map((message) => (
-        <MessageBubble key={message.id} message={message} />
+      {messages.map((message, index) => (
+        <div key={message.id} ref={index === messages.length - 1 ? lastRef : undefined}>
+          <MessageBubble message={message} />
+        </div>
       ))}
     </div>
   );
