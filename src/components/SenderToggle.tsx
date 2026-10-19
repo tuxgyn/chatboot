@@ -14,7 +14,11 @@ export function SenderToggle({ sender, onToggle }: SenderToggleProps) {
       onClick={onToggle}
       aria-pressed={isRobot}
       aria-label={isRobot ? "Remetente: robô" : "Remetente: usuário"}
-      className="flex size-10 shrink-0 items-center justify-center rounded-xl text-stone-700 hover:bg-stone-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-800"
+      className={`flex size-10 shrink-0 items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 ${
+        isRobot
+          ? "bg-violet-50 text-violet-600 hover:bg-violet-100 focus-visible:outline-violet-500"
+          : "text-stone-700 hover:bg-stone-100 focus-visible:outline-stone-800"
+      }`}
     >
       {isRobot ? <RobotIcon /> : <PersonIcon />}
     </button>

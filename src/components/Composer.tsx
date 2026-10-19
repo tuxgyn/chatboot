@@ -36,7 +36,11 @@ export function Composer() {
   }
 
   return (
-    <div className="flex items-end gap-2 rounded-2xl border-2 border-transparent bg-white p-3 shadow-md">
+    <div
+      className={`flex items-end gap-2 rounded-2xl border-2 bg-white p-3 shadow-md ${
+        sender === "robot" ? "border-violet-500" : "border-transparent"
+      }`}
+    >
       <SenderToggle
         sender={sender}
         onToggle={() => setSender(sender === "user" ? "robot" : "user")}
