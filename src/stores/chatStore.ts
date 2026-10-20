@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import type { ChatMessage, Sender } from "../types/chat";
-import type { Conversation } from "../types/conversation";
-
-const TITLE_MAX_CHARS = 28;
+import { DEFAULT_CONVERSATION_TITLE, titleFromFirstMessage, type Conversation } from "../types/conversation";
 
 export type ChatStore = {
   conversations: Conversation[];
@@ -22,7 +20,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     const id = crypto.randomUUID();
     const conversation: Conversation = {
       id,
-      title: "Nova conversa",
+      title: DEFAULT_CONVERSATION_TITLE,
       messages: [],
       draft: "",
       sender: "user",
@@ -109,7 +107,3 @@ function mapActive(
   );
 }
 
-function titleFromFirstMessage(text: string): string {
-  if (text.length <= TITLE_MAX_CHARS) return text;
-  return `${text.slice(0, TITLE_MAX_CHARS)}…`;
-}

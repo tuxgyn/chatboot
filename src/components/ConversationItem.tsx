@@ -1,4 +1,4 @@
-import type { Conversation } from "../types/conversation";
+import { previewFromMessages, type Conversation } from "../types/conversation";
 
 type ConversationItemProps = {
   conversation: Conversation;
@@ -7,8 +7,7 @@ type ConversationItemProps = {
 };
 
 export function ConversationItem({ conversation, active, onSelect }: ConversationItemProps) {
-  const lastMessage = conversation.messages.at(-1);
-  const preview = lastMessage?.text ?? "Sem mensagens";
+  const preview = previewFromMessages(conversation.messages);
 
   return (
     <li>
