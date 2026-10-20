@@ -8,14 +8,14 @@ export function ConversationList() {
   const selectConversation = useChatStore((state) => state.selectConversation);
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    <nav aria-label="Conversas" className="flex h-full min-h-0 flex-col">
       <div className="flex shrink-0 flex-col gap-2 px-3 py-3">
         <p className="text-sm font-semibold text-stone-800">Conversas</p>
         <button
           type="button"
           onClick={createConversation}
           aria-label="Nova conversa"
-          className="cursor-pointer rounded-xl bg-stone-800 px-3 py-2 text-sm font-medium text-white hover:bg-stone-700 focus:ring-2 focus:ring-stone-800 focus:ring-offset-2 focus:ring-offset-amber-100"
+          className="cursor-pointer rounded-xl bg-stone-800 px-3 py-2 text-sm font-medium text-white hover:bg-stone-700 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-stone-800"
         >
           Nova conversa
         </button>
@@ -28,7 +28,7 @@ export function ConversationList() {
           </p>
         </div>
       ) : (
-        <ul aria-label="Conversas" className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-2 pb-3">
+        <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-2 pb-3">
           {conversations.map((conversation) => (
             <ConversationItem
               key={conversation.id}
@@ -39,6 +39,6 @@ export function ConversationList() {
           ))}
         </ul>
       )}
-    </div>
+    </nav>
   );
 }

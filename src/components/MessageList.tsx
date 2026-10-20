@@ -4,9 +4,10 @@ import { MessageBubble } from "./MessageBubble";
 
 type MessageListProps = {
   messages: ChatMessage[];
+  activeConversationId: string;
 };
 
-export function MessageList({ messages }: MessageListProps) {
+export function MessageList({ messages, activeConversationId }: MessageListProps) {
   const lastRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -15,7 +16,7 @@ export function MessageList({ messages }: MessageListProps) {
 
     const scroller = last.closest("[data-chat-scroll]");
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
-  }, [messages]);
+  }, [messages, activeConversationId]);
 
   if (messages.length === 0) {
     return (

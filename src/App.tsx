@@ -18,7 +18,14 @@ export default function App() {
       chat={
         <ChatLayout
           history={
-            activeConversation ? <MessageList messages={activeConversation.messages} /> : <EmptyChat />
+            activeConversation ? (
+              <MessageList
+                messages={activeConversation.messages}
+                activeConversationId={activeConversation.id}
+              />
+            ) : (
+              <EmptyChat />
+            )
           }
           composer={
             activeConversation ? (

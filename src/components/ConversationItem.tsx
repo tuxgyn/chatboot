@@ -15,8 +15,10 @@ export function ConversationItem({ conversation, active, onSelect }: Conversatio
         type="button"
         onClick={() => onSelect(conversation.id)}
         aria-current={active ? "true" : undefined}
-        className={`flex w-full cursor-pointer flex-col items-start gap-0.5 rounded-xl px-3 py-2 text-left focus:ring-2 focus:ring-stone-800 focus:ring-offset-2 focus:ring-offset-amber-100 ${
-          active ? "bg-stone-800 text-white" : "text-stone-800 hover:bg-white/70"
+        className={`flex w-full cursor-pointer flex-col items-start gap-0.5 rounded-xl px-3 py-2 text-left focus:ring-2 focus:ring-offset-2 focus:ring-offset-amber-100 ${
+          active
+            ? "bg-stone-800 text-white hover:bg-stone-700 focus:ring-white"
+            : "text-stone-800 hover:bg-white/70 focus:ring-stone-800"
         }`}
       >
         <span className="w-full truncate text-sm font-medium">{conversation.title}</span>
