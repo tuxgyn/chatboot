@@ -22,6 +22,9 @@ export function ConversationItem({ conversation, active, onSelect }: Conversatio
         }`}
       >
         <span className="w-full truncate text-sm font-medium">{conversation.title}</span>
+        <span className={`w-full truncate font-mono text-[10px] ${active ? "text-stone-300" : "text-stone-500"}`}>
+          {conversation.id}
+        </span>
         <span className={`w-full truncate text-xs ${active ? "text-stone-300" : "text-stone-500"}`}>
           {preview}
         </span>

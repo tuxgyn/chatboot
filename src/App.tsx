@@ -28,15 +28,14 @@ export default function App() {
             )
           }
           composer={
-            activeConversation ? (
-              <Composer
-                draft={activeConversation.draft}
-                sender={activeConversation.sender}
-                onDraftChange={setDraft}
-                onToggleSender={toggleSender}
-                onSend={sendMessage}
-              />
-            ) : undefined
+            <Composer
+              draft={activeConversation?.draft ?? ""}
+              sender={activeConversation?.sender ?? "user"}
+              disabled={activeConversation == null}
+              onDraftChange={setDraft}
+              onToggleSender={toggleSender}
+              onSend={sendMessage}
+            />
           }
         />
       }

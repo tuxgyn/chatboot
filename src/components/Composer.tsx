@@ -13,6 +13,7 @@ type ComposerProps = {
   onDraftChange: (draft: string) => void;
   onToggleSender: () => void;
   onSend: (draft: string, sender: Sender) => void;
+  disabled?: boolean;
 };
 
 export function Composer({
@@ -21,9 +22,10 @@ export function Composer({
   onDraftChange,
   onToggleSender,
   onSend,
+  disabled = false,
 }: ComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const canSend = draft.trim().length > 0;
+  const canSend = !disabled && draft.trim().length > 0;
 
   useLayoutEffect(() => {
     const el = textareaRef.current;
@@ -51,9 +53,9 @@ export function Composer({
     <div
       className={`flex items-end gap-2 rounded-2xl border-2 bg-white p-3 shadow-md ${
         sender === "robot" ? "border-violet-500" : "border-transparent"
-      }`}
+      } ${disabled ? "opacity-50" : ""}`}
     >
-      <SenderToggle sender={sender} onToggle={onToggleSender} />
+      <SenderToggle sender={sender} onToggle={onToggleSender} disabled={disabled} />
       <label htmlFor="chat-message" className="sr-only">
         Mensagem
       </label>
@@ -64,8 +66,9 @@ export function Composer({
         onChange={(event) => onDraftChange(event.target.value)}
         onKeyDown={onKeyDown}
         rows={1}
+        disabled={disabled}
         placeholder="Escreva uma mensagem"
-        className="max-h-[192px] min-h-6 flex-1 resize-none bg-transparent py-2 leading-6 text-stone-800 outline-none placeholder:text-stone-400"
+        className="max-h-[192px] min-h-6 flex-1 resize-none bg-transparent py-2 leading-6 text-stone-800 outline-none placeholder:text-stone-400 disabled:cursor-not-allowed"
       />
       <SendButton disabled={!canSend} onClick={send} />
     </div>

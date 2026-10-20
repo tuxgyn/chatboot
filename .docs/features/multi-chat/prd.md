@@ -203,6 +203,7 @@ O card único atual (`w-96`, `h-[70vh]`) vira o **painel da conversa ativa**. À
 - Página: `h-dvh`, fundo branco (já usado atrás do card), `px-4`.
 - Container: `mx-auto flex h-[70vh] min-h-64 w-full max-w-4xl gap-3`.
 - Lista: largura `w-64` (encolhe em tela estreita; em viewport `< md` a lista pode ficar `w-52`). Card com o mesmo visual do chat: `rounded-[20px] border border-stone-300 bg-amber-100 shadow`.
+- No celular a lista é retrátil: hamburger no canto superior esquerdo abre/fecha o sidebar.
 - Painel direito: o `ChatLayout` atual (mesma largura máxima `w-96` **ou** `flex-1` para ocupar o resto do container — preferir `flex-1` para não sobrar buraco).
 - **Não** usar `position: fixed` no composer. Ele continua último filho do flex da conversa.
 
@@ -213,6 +214,7 @@ Header da lista: título `"Conversas"` + botão `"Nova conversa"` (`type="button
 Itens:
 
 - Título (`title`) em uma linha, `truncate`.
+- Identificação: `id` da conversa em `font-mono`.
 - Preview opcional: última mensagem ou `"Sem mensagens"` em `text-xs text-stone-500`.
 - Item ativo: fundo `bg-stone-800 text-white` (preview no ativo: `text-stone-300`).
 - Item inativo: hover `bg-white/70`.
@@ -224,7 +226,8 @@ Lista vazia (ainda sem nenhuma conversa): texto `"Nenhuma conversa"` na lista, `
 
 Quando `activeConversationId === null`:
 
-- **não** renderizar `MessageList` nem `Composer`;
+- **não** renderizar `MessageList`;
+- `Composer` permanece visível, desabilitado (`opacity-50`, controles `disabled`);
 - mostrar copy centralizada: `"Selecione ou crie uma conversa"`;
 - estilo: `text-stone-500 text-sm`, `flex-1 items-center justify-center`;
 - o header do card pode continuar com `"Assistente"`.
@@ -258,7 +261,7 @@ Comportamento idêntico ao PRD do chat único, com um vínculo extra: tudo opera
 - `onDraftChange` → `setDraft`.
 - `onToggleSender` → `toggleSender`.
 - `onSend` → `sendMessage`.
-- Sem conversa ativa, o composer não existe — não precisa de guard visual extra no botão.
+- Sem conversa ativa, o composer fica desabilitado (`opacity-50`; textarea, toggle e enviar não funcionam).
 
 Regras que **não** reabrir:
 
@@ -317,19 +320,19 @@ chatboot/src/
 
 ## 13. Critérios de pronto
 
-- [ ] Dependência `zustand` instalada; store em `src/stores/chatStore.ts`.
-- [ ] Recarregar a página começa com lista vazia, `activeConversationId === null` e copy `"Selecione ou crie uma conversa"`.
-- [ ] Nenhuma conversa é criada no boot.
-- [ ] `"Nova conversa"` cria item, seleciona e mostra `"Nenhuma mensagem ainda"` + composer.
-- [ ] Enviar mensagem só altera o histórico da conversa ativa.
-- [ ] Alternar conversas troca histórico, draft e toggle; o draft da conversa anterior permanece.
-- [ ] Título vira o recorte da primeira mensagem; próximas mensagens não renomeiam.
-- [ ] Item ativo visível na lista (`aria-current`).
-- [ ] Scroll automático no envio e na troca de conversa.
-- [ ] Composer, Enter, Shift+Enter, IME, borda violeta do modo robô e bolhas continuam iguais.
-- [ ] Recarregar zera conversas (sem persistência).
-- [ ] Types com `type`; UI em `src/components`; store em `src/stores`.
-- [ ] Sem exclusão, rename ou persistência.
+- [x] Dependência `zustand` instalada; store em `src/stores/chatStore.ts`.
+- [x] Recarregar a página começa com lista vazia, `activeConversationId === null` e copy `"Selecione ou crie uma conversa"`.
+- [x] Nenhuma conversa é criada no boot.
+- [x] `"Nova conversa"` cria item, seleciona e mostra `"Nenhuma mensagem ainda"` + composer.
+- [x] Enviar mensagem só altera o histórico da conversa ativa.
+- [x] Alternar conversas troca histórico, draft e toggle; o draft da conversa anterior permanece.
+- [x] Título vira o recorte da primeira mensagem; próximas mensagens não renomeiam.
+- [x] Item ativo visível na lista (`aria-current`).
+- [x] Scroll automático no envio e na troca de conversa.
+- [x] Composer, Enter, Shift+Enter, IME, borda violeta do modo robô e bolhas continuam iguais.
+- [x] Recarregar zera conversas (sem persistência).
+- [x] Types com `type`; UI em `src/components`; store em `src/stores`.
+- [x] Sem exclusão, rename ou persistência.
 
 ---
 
@@ -343,63 +346,63 @@ Chat único operando: composer, bolhas, toggle, scroll. Não reabrir o fluxo de 
 
 ### T1 — Dependência e types
 
-- [ ] Instalar `zustand`.
-- [ ] Criar `src/types/conversation.ts`.
-- [ ] Não alterar o shape de `ChatMessage`.
+- [x] Instalar `zustand`.
+- [x] Criar `src/types/conversation.ts`.
+- [x] Não alterar o shape de `ChatMessage`.
 
 **Pronto quando:** o projeto type-checka com o novo type.
 
 ### T2 — Store sem UI
 
-- [ ] `src/stores/chatStore.ts` com estado inicial vazio e as actions da seção 5.
-- [ ] `sendMessage` / `setDraft` / `toggleSender` no-op sem conversa ativa.
+- [x] `src/stores/chatStore.ts` com estado inicial vazio e as actions da seção 5.
+- [x] `sendMessage` / `setDraft` / `toggleSender` no-op sem conversa ativa.
 
 **Pronto quando:** as actions passam em um smoke manual (DevTools / console) sem renderizar lista ainda.
 
 ### T3 — Shell de dois painéis
 
-- [ ] `MultiChatLayout`: lista à esquerda, slot da conversa à direita.
-- [ ] `ChatLayout` passa a ocupar o painel direito (`flex-1`), sem mudar o visual interno.
+- [x] `MultiChatLayout`: lista à esquerda, slot da conversa à direita.
+- [x] `ChatLayout` passa a ocupar o painel direito (`flex-1`), sem mudar o visual interno.
 
 **Pronto quando:** os dois cards aparecem lado a lado em desktop; em tela estreita não estouram a viewport.
 
 ### T4 — Empty state inicial
 
-- [ ] `EmptyChat` no painel direito quando `activeConversationId === null`.
-- [ ] Composer e `MessageList` **não** montam nesse estado.
+- [x] `EmptyChat` no painel direito quando `activeConversationId === null`.
+- [x] `MessageList` **não** monta nesse estado; o composer fica visível e desabilitado.
 
 **Pronto quando:** o first paint é o empty state, sem conversa inventada.
 
 ### T5 — Lista + criar + selecionar
 
-- [ ] `ConversationList` + `ConversationItem`.
-- [ ] Botão cria e já seleciona.
-- [ ] Clique troca `activeConversationId`.
-- [ ] Item ativo com destaque e `aria-current`.
+- [x] `ConversationList` + `ConversationItem`.
+- [x] Botão cria e já seleciona.
+- [x] Clique troca `activeConversationId`.
+- [x] Item ativo com destaque e `aria-current`.
 
 **Pronto quando:** dá para criar duas conversas vazias e alternar o destaque na lista.
 
 ### T6 — Ligar o chat à conversa ativa
 
-- [ ] Remover `useState` de `App`.
-- [ ] `MessageList` e `Composer` leem/escrevem só a conversa ativa.
-- [ ] Envio, draft e toggle por conversa.
+- [x] Remover `useState` de `App`.
+- [x] `MessageList` e `Composer` leem/escrevem só a conversa ativa.
+- [x] Envio, draft e toggle por conversa.
 
 **Pronto quando:** mensagens de A não aparecem em B; voltar para A restaura draft e remetente.
 
 ### T7 — Título e preview
 
-- [ ] Título default `"Nova conversa"`.
-- [ ] Primeira mensagem atualiza o título (28 chars + `…`).
-- [ ] Preview do último texto (ou `"Sem mensagens"`) na lista.
+- [x] Título default `"Nova conversa"`.
+- [x] Primeira mensagem atualiza o título (28 chars + `…`).
+- [x] Preview do último texto (ou `"Sem mensagens"`) na lista.
 
 **Pronto quando:** duas conversas com textos diferentes mostram títulos/previews distintos.
 
 ### T8 — Scroll na troca + a11y
 
-- [ ] `useLayoutEffect` também depende de `activeConversationId`.
-- [ ] `aria-label` da lista e do botão nova; `role="status"` nos vazios.
-- [ ] Conferir focus/hover do item e do botão.
+- [x] `useLayoutEffect` também depende de `activeConversationId`.
+- [x] `aria-label` da lista e do botão nova; `role="status"` nos vazios.
+- [x] Conferir focus/hover do item e do botão.
 
 **Pronto quando:** os critérios da seção 13 estão todos marcados.
 
