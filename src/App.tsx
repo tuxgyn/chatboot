@@ -1,54 +1,33 @@
-import { useState } from "react";
 import { ChatLayout } from "./components/ChatLayout";
 import { Composer } from "./components/Composer";
 import { ConversationList } from "./components/ConversationList";
 import { EmptyChat } from "./components/EmptyChat";
 import { MessageList } from "./components/MessageList";
 import { MultiChatLayout } from "./components/MultiChatLayout";
-import { useChatStore } from "./stores/chatStore";
-import type { ChatMessage, Sender } from "./types/chat";
+import { selectActiveConversation, useChatStore } from "./stores/chatStore";
 
 export default function App() {
-  const activeConversationId = useChatStore((state) => state.activeConversationId);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [draft, setDraft] = useState("");
-  const [sender, setSender] = useState<Sender>("user");
-
-  function onToggleSender() {
-    setSender((current) => (current === "user" ? "robot" : "user"));
-  }
-
-  function onSend(text: string, currentSender: Sender) {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-
-    const message: ChatMessage = {
-      id: crypto.randomUUID(),
-      text: trimmed,
-      sender: currentSender,
-      createdAt: Date.now(),
-    };
-
-    setMessages((current) => [...current, message]);
-    setDraft("");
-  }
-
-  const hasActiveConversation = activeConversationId != null;
+  const activeConversation = useChatStore(selectActiveConversation);
+  const setDraft = useChatStore((state) => state.setDraft);
+  const toggleSender = useChatStore((state) => state.toggleSender);
+  const sendMessage = useChatStore((state) => state.sendMessage);
 
   return (
     <MultiChatLayout
       list={<ConversationList />}
       chat={
         <ChatLayout
-          history={hasActiveConversation ? <MessageList messages={messages} /> : <EmptyChat />}
+          history={
+            activeConversation ? <MessageList messages={activeConversation.messages} /> : <EmptyChat />
+          }
           composer={
-            hasActiveConversation ? (
+            activeConversation ? (
               <Composer
-                draft={draft}
-                sender={sender}
+                draft={activeConversation.draft}
+                sender={activeConversation.sender}
                 onDraftChange={setDraft}
-                onToggleSender={onToggleSender}
-                onSend={onSend}
+                onToggleSender={toggleSender}
+                onSend={sendMessage}
               />
             ) : undefined
           }
