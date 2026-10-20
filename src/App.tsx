@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChatLayout } from "./components/ChatLayout";
 import { Composer } from "./components/Composer";
+import { ConversationList } from "./components/ConversationList";
 import { EmptyChat } from "./components/EmptyChat";
 import { MessageList } from "./components/MessageList";
 import { MultiChatLayout } from "./components/MultiChatLayout";
@@ -36,7 +37,7 @@ export default function App() {
 
   return (
     <MultiChatLayout
-      list={null}
+      list={<ConversationList />}
       chat={
         <ChatLayout
           history={hasActiveConversation ? <MessageList messages={messages} /> : <EmptyChat />}

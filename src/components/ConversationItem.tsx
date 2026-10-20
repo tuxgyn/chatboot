@@ -1,0 +1,30 @@
+import type { Conversation } from "../types/conversation";
+
+type ConversationItemProps = {
+  conversation: Conversation;
+  active: boolean;
+  onSelect: (id: string) => void;
+};
+
+export function ConversationItem({ conversation, active, onSelect }: ConversationItemProps) {
+  const lastMessage = conversation.messages.at(-1);
+  const preview = lastMessage?.text ?? "Sem mensagens";
+
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => onSelect(conversation.id)}
+        aria-current={active ? "true" : undefined}
+        className={`flex w-full cursor-pointer flex-col items-start gap-0.5 rounded-xl px-3 py-2 text-left focus:ring-2 focus:ring-stone-800 focus:ring-offset-2 focus:ring-offset-amber-100 ${
+          active ? "bg-stone-800 text-white" : "text-stone-800 hover:bg-white/70"
+        }`}
+      >
+        <span className="w-full truncate text-sm font-medium">{conversation.title}</span>
+        <span className={`w-full truncate text-xs ${active ? "text-stone-300" : "text-stone-500"}`}>
+          {preview}
+        </span>
+      </button>
+    </li>
+  );
+}
