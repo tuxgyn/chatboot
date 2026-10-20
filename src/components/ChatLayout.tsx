@@ -7,24 +7,22 @@ type ChatLayoutProps = {
 
 export function ChatLayout({ history, composer }: ChatLayoutProps) {
   return (
-    <div className="flex h-dvh items-center justify-center bg-white px-4">
-      <section
-        aria-label="Chat"
-        className="flex h-[70vh] w-96 max-w-[calc(100%-2rem)] min-h-64 flex-col overflow-hidden rounded-[20px] border border-stone-300 bg-amber-100 shadow-[0_28px_60px_-24px_rgba(0,0,0,0.45)]"
+    <section
+      aria-label="Chat"
+      className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[20px] border border-stone-300 bg-amber-100 shadow-[0_28px_60px_-24px_rgba(0,0,0,0.45)]"
+    >
+      <header className="flex shrink-0 items-center gap-2 bg-stone-800 px-4 py-2.5 text-white">
+        <BotMark />
+        <p className="text-sm font-semibold">Assistente</p>
+      </header>
+      <div
+        data-chat-scroll
+        className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3"
       >
-        <header className="flex shrink-0 items-center gap-2 bg-stone-800 px-4 py-2.5 text-white">
-          <BotMark />
-          <p className="text-sm font-semibold">Assistente</p>
-        </header>
-        <div
-          data-chat-scroll
-          className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3"
-        >
-          {history}
-        </div>
-        <div className="shrink-0 p-3">{composer}</div>
-      </section>
-    </div>
+        {history}
+      </div>
+      <div className="shrink-0 p-3">{composer}</div>
+    </section>
   );
 }
 

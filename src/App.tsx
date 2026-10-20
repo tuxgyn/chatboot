@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChatLayout } from "./components/ChatLayout";
 import { Composer } from "./components/Composer";
 import { MessageList } from "./components/MessageList";
+import { MultiChatLayout } from "./components/MultiChatLayout";
 import type { ChatMessage, Sender } from "./types/chat";
 
 export default function App() {
@@ -29,15 +30,20 @@ export default function App() {
   }
 
   return (
-    <ChatLayout
-      history={<MessageList messages={messages} />}
-      composer={
-        <Composer
-          draft={draft}
-          sender={sender}
-          onDraftChange={setDraft}
-          onToggleSender={onToggleSender}
-          onSend={onSend}
+    <MultiChatLayout
+      list={null}
+      chat={
+        <ChatLayout
+          history={<MessageList messages={messages} />}
+          composer={
+            <Composer
+              draft={draft}
+              sender={sender}
+              onDraftChange={setDraft}
+              onToggleSender={onToggleSender}
+              onSend={onSend}
+            />
+          }
         />
       }
     />
