@@ -423,3 +423,7 @@ T0 (chat único)
 ```
 
 Não desenhar a lista em estado local paralelo: ela nasce lendo a mesma store que o envio vai mutar.
+
+- [x] Cadeia T0–T8 seguida nesta ordem.
+- [x] `ConversationList` lê `useChatStore`; `sendMessage` muta a mesma store.
+- [x] Sem array local de conversas no `App` (só `sidebarOpen` no layout, que não é histórico).

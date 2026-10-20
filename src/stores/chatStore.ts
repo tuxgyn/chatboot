@@ -7,6 +7,7 @@ export type ChatStore = {
   activeConversationId: string | null;
   createConversation: () => string;
   selectConversation: (id: string) => void;
+  removeConversation: (id: string) => void;
   setDraft: (draft: string) => void;
   toggleSender: () => void;
   sendMessage: (text: string, sender: Sender) => void;
@@ -39,6 +40,18 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     const exists = get().conversations.some((conversation) => conversation.id === id);
     if (!exists) return;
     set({ activeConversationId: id });
+  },
+
+  removeConversation(id) {
+    const { conversations, activeConversationId } = get();
+    const remaining = conversations.filter((conversation) => conversation.id !== id);
+    if (remaining.length === conversations.length) return;
+
+    set({
+      conversations: remaining,
+      activeConversationId:
+        activeConversationId === id ? (remaining[0]?.id ?? null) : activeConversationId,
+    });
   },
 
   setDraft(draft) {

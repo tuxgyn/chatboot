@@ -9,19 +9,23 @@ export function ChatLayout({ history, composer }: ChatLayoutProps) {
   return (
     <section
       aria-label="Chat"
-      className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[20px] border border-stone-300 bg-amber-100 shadow-[0_28px_60px_-24px_rgba(0,0,0,0.45)]"
+      className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-amber-100 md:h-full md:rounded-[20px] md:border md:border-stone-300 md:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.45)]"
     >
-      <header className="flex shrink-0 items-center gap-2 bg-stone-800 px-4 py-2.5 text-white">
+      <header className="flex shrink-0 items-center gap-2 bg-stone-800 px-3 py-2 text-white pt-[max(0.5rem,env(safe-area-inset-top))] md:px-4 md:py-2.5 md:pt-2.5">
         <BotMark />
         <p className="text-sm font-semibold">Assistente</p>
       </header>
       <div
         data-chat-scroll
-        className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3"
+        className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-3 md:px-4"
       >
         {history}
       </div>
-      {composer != null ? <div className="shrink-0 p-3">{composer}</div> : null}
+      {composer != null ? (
+        <div className="shrink-0 p-2 md:p-3">
+          {composer}
+        </div>
+      ) : null}
     </section>
   );
 }

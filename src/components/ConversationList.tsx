@@ -6,10 +6,11 @@ export function ConversationList() {
   const activeConversationId = useChatStore((state) => state.activeConversationId);
   const createConversation = useChatStore((state) => state.createConversation);
   const selectConversation = useChatStore((state) => state.selectConversation);
+  const removeConversation = useChatStore((state) => state.removeConversation);
 
   return (
     <nav aria-label="Conversas" className="flex h-full min-h-0 flex-col">
-      <div className="flex shrink-0 flex-col gap-2 px-3 py-3">
+      <div className="flex shrink-0 items-center justify-between gap-2 px-3 py-2 md:flex-col md:items-stretch md:py-3">
         <p className="text-sm font-semibold text-stone-800">Conversas</p>
         <button
           type="button"
@@ -23,7 +24,7 @@ export function ConversationList() {
 
       {conversations.length === 0 ? (
         <div className="flex flex-1 items-center justify-center px-3">
-          <p role="status" className="text-sm text-stone-500">
+          <p role="status" className="text-center text-sm text-stone-500">
             Nenhuma conversa
           </p>
         </div>
@@ -35,6 +36,7 @@ export function ConversationList() {
               conversation={conversation}
               active={conversation.id === activeConversationId}
               onSelect={selectConversation}
+              onRemove={removeConversation}
             />
           ))}
         </ul>

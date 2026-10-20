@@ -16,7 +16,7 @@ export function SenderToggle({ sender, onToggle, disabled = false }: SenderToggl
       disabled={disabled}
       aria-pressed={isRobot}
       aria-label={isRobot ? "Remetente: robô" : "Remetente: usuário"}
-      className={`flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed ${
+      className={`flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed md:size-10 ${
         isRobot
           ? "bg-violet-50 text-violet-600 hover:bg-violet-100 focus:ring-violet-500"
           : "text-stone-700 hover:bg-stone-100 focus:ring-stone-800"

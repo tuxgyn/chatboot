@@ -51,7 +51,7 @@ export function Composer({
 
   return (
     <div
-      className={`flex items-end gap-2 rounded-2xl border-2 bg-white p-3 shadow-md ${
+      className={`flex items-end gap-1.5 rounded-2xl border-2 bg-white p-2 shadow-md md:gap-2 md:p-3 ${
         sender === "robot" ? "border-violet-500" : "border-transparent"
       } ${disabled ? "opacity-50" : ""}`}
     >
@@ -68,7 +68,7 @@ export function Composer({
         rows={1}
         disabled={disabled}
         placeholder="Escreva uma mensagem"
-        className="max-h-[192px] min-h-6 flex-1 resize-none bg-transparent py-2 leading-6 text-stone-800 outline-none placeholder:text-stone-400 disabled:cursor-not-allowed"
+        className="max-h-[192px] min-h-6 min-w-0 flex-1 resize-none bg-transparent py-2 leading-6 text-stone-800 outline-none placeholder:text-stone-400 disabled:cursor-not-allowed"
       />
       <SendButton disabled={!canSend} onClick={send} />
     </div>
