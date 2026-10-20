@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 type ChatLayoutProps = {
   history: ReactNode;
-  composer: ReactNode;
+  composer?: ReactNode;
 };
 
 export function ChatLayout({ history, composer }: ChatLayoutProps) {
@@ -21,7 +21,7 @@ export function ChatLayout({ history, composer }: ChatLayoutProps) {
       >
         {history}
       </div>
-      <div className="shrink-0 p-3">{composer}</div>
+      {composer != null ? <div className="shrink-0 p-3">{composer}</div> : null}
     </section>
   );
 }

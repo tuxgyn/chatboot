@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { ChatLayout } from "./components/ChatLayout";
 import { Composer } from "./components/Composer";
+import { EmptyChat } from "./components/EmptyChat";
 import { MessageList } from "./components/MessageList";
 import { MultiChatLayout } from "./components/MultiChatLayout";
+import { useChatStore } from "./stores/chatStore";
 import type { ChatMessage, Sender } from "./types/chat";
 
 export default function App() {
+  const activeConversationId = useChatStore((state) => state.activeConversationId);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [sender, setSender] = useState<Sender>("user");
@@ -29,20 +32,24 @@ export default function App() {
     setDraft("");
   }
 
+  const hasActiveConversation = activeConversationId != null;
+
   return (
     <MultiChatLayout
       list={null}
       chat={
         <ChatLayout
-          history={<MessageList messages={messages} />}
+          history={hasActiveConversation ? <MessageList messages={messages} /> : <EmptyChat />}
           composer={
-            <Composer
-              draft={draft}
-              sender={sender}
-              onDraftChange={setDraft}
-              onToggleSender={onToggleSender}
-              onSend={onSend}
-            />
+            hasActiveConversation ? (
+              <Composer
+                draft={draft}
+                sender={sender}
+                onDraftChange={setDraft}
+                onToggleSender={onToggleSender}
+                onSend={onSend}
+              />
+            ) : undefined
           }
         />
       }
