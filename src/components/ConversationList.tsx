@@ -29,7 +29,7 @@ export function ConversationList() {
           </p>
         </div>
       ) : (
-        <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto px-2 pb-3">
+        <ul className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-2 pb-3">
           {conversations.map((conversation) => (
             <ConversationItem
               key={conversation.id}

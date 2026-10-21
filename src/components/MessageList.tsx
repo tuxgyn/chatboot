@@ -29,12 +29,12 @@ export function MessageList({ messages, activeConversationId }: MessageListProps
   }
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col items-stretch gap-4">
       {messages.map((message, index) => (
         <div
           key={message.id}
           ref={index === messages.length - 1 ? lastRef : undefined}
-          className="w-full"
+          className="block w-full"
         >
           <MessageBubble message={message} />
         </div>

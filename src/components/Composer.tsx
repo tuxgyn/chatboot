@@ -14,6 +14,7 @@ type ComposerProps = {
   onToggleSender: () => void;
   onSend: (draft: string, sender: Sender) => void;
   disabled?: boolean;
+  inputId?: string;
 };
 
 export function Composer({
@@ -23,6 +24,7 @@ export function Composer({
   onToggleSender,
   onSend,
   disabled = false,
+  inputId = "chat-message",
 }: ComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const canSend = !disabled && draft.trim().length > 0;
@@ -56,11 +58,11 @@ export function Composer({
       } ${disabled ? "opacity-50" : ""}`}
     >
       <SenderToggle sender={sender} onToggle={onToggleSender} disabled={disabled} />
-      <label htmlFor="chat-message" className="sr-only">
+      <label htmlFor={inputId} className="sr-only">
         Mensagem
       </label>
       <textarea
-        id="chat-message"
+        id={inputId}
         ref={textareaRef}
         value={draft}
         onChange={(event) => onDraftChange(event.target.value)}

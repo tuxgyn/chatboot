@@ -2,6 +2,7 @@ import type { ChatMessage, Sender } from "./chat";
 
 export const DEFAULT_CONVERSATION_TITLE = "Nova conversa";
 export const EMPTY_CONVERSATION_PREVIEW = "Sem mensagens";
+export const WELCOME_MESSAGE = "Olá! Como posso ajudar?";
 
 const TITLE_MAX_CHARS = 28;
 

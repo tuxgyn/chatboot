@@ -1,4 +1,5 @@
-import { previewFromMessages, type Conversation } from "../types/conversation";
+import type { Conversation } from "../types/conversation";
+import { MessageBubble } from "./MessageBubble";
 
 type ConversationItemProps = {
   conversation: Conversation;
@@ -8,40 +9,54 @@ type ConversationItemProps = {
 };
 
 export function ConversationItem({ conversation, active, onSelect, onRemove }: ConversationItemProps) {
-  const preview = previewFromMessages(conversation.messages);
-
   return (
-    <li className="flex items-stretch gap-1">
-      <button
-        type="button"
-        onClick={() => onSelect(conversation.id)}
-        aria-current={active ? "true" : undefined}
-        className={`flex min-w-0 flex-1 cursor-pointer flex-col items-start gap-0.5 rounded-xl px-3 py-2 text-left focus:ring-2 focus:ring-offset-2 focus:ring-offset-amber-100 ${
-          active
-            ? "bg-stone-800 text-white hover:bg-stone-700 focus:ring-white"
-            : "text-stone-800 hover:bg-white/70 focus:ring-stone-800"
+    <li>
+      <article
+        className={`rounded-xl px-2 py-2 ${
+          active ? "bg-white/70 ring-1 ring-stone-300" : ""
         }`}
       >
-        <span className="w-full truncate text-sm font-medium">{conversation.title}</span>
-        <span className={`w-full truncate font-mono text-[10px] ${active ? "text-stone-300" : "text-stone-500"}`}>
-          {conversation.id}
-        </span>
-        <span className={`w-full truncate text-xs ${active ? "text-stone-300" : "text-stone-500"}`}>
-          {preview}
-        </span>
-      </button>
-      <button
-        type="button"
-        onClick={() => onRemove(conversation.id)}
-        aria-label={`Remover conversa ${conversation.title}`}
-        className={`flex size-11 shrink-0 cursor-pointer items-center justify-center self-center rounded-xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-amber-100 md:size-9 ${
-          active
-            ? "text-stone-300 hover:bg-stone-800 hover:text-white focus:ring-white"
-            : "text-stone-500 hover:bg-white/70 hover:text-stone-800 focus:ring-stone-800"
-        }`}
-      >
-        <TrashIcon />
-      </button>
+        <div className="flex items-start gap-1">
+          <button
+            type="button"
+            onClick={() => onSelect(conversation.id)}
+            aria-current={active ? "true" : undefined}
+            className="min-w-0 flex-1 cursor-pointer text-left focus:ring-2 focus:ring-stone-800"
+          >
+            <span className="block truncate text-sm font-medium text-stone-800">{conversation.title}</span>
+            <span className="block truncate font-mono text-[10px] text-stone-500">{conversation.id}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onRemove(conversation.id)}
+            aria-label={`Remover conversa ${conversation.title}`}
+            className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-xl text-stone-500 hover:bg-white/70 hover:text-stone-800 focus:ring-2 focus:ring-stone-800"
+          >
+            <TrashIcon />
+          </button>
+        </div>
+
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => onSelect(conversation.id)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              onSelect(conversation.id);
+            }
+          }}
+          className="mt-2 flex w-full cursor-pointer flex-col items-stretch gap-3"
+        >
+          {conversation.messages.length === 0 ? (
+            <p className="text-xs text-stone-500">Sem mensagens</p>
+          ) : (
+            conversation.messages.map((message) => (
+              <MessageBubble key={message.id} message={message} />
+            ))
+          )}
+        </div>
+      </article>
     </li>
   );
 }

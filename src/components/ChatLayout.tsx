@@ -9,7 +9,7 @@ export function ChatLayout({ history, composer }: ChatLayoutProps) {
   return (
     <section
       aria-label="Chat"
-      className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-amber-100 md:h-full md:rounded-[20px] md:border md:border-stone-300 md:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.45)]"
+      className="flex min-h-0 min-w-0 w-full flex-1 flex-col overflow-hidden bg-amber-100 md:h-full md:w-[28rem] md:max-w-[28rem] md:flex-none md:rounded-[20px] md:border md:border-stone-300 md:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.45)]"
     >
       <header className="flex shrink-0 items-center gap-2 bg-stone-800 px-3 py-2 text-white pt-[max(0.5rem,env(safe-area-inset-top))] md:px-4 md:py-2.5 md:pt-2.5">
         <BotMark />
